@@ -159,6 +159,5 @@ public class Practice10HistogramView extends View {
         private void setNum(float num) {
             this.num = num;
         }
-
     }
 }
