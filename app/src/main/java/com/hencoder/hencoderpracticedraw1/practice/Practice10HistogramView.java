@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -16,6 +15,11 @@ import java.util.List;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
+/**
+ * 直方图
+ *
+ * @author kxmc
+ */
 public class Practice10HistogramView extends View {
 
     public Practice10HistogramView(Context context) {
@@ -33,31 +37,38 @@ public class Practice10HistogramView extends View {
     /**
      * 坐标轴线条宽度
      */
-    private static final int lineWidth = 2;
+    private static final int LINE_WIDTH = 2;
     /**
      * 字体大小
      */
-    private static final int textSize = 18;
+    private static final int TEXT_SIZE = 18;
     /**
      * 直方图矩形的宽度
      */
-    private static final int arctWidth = 60;
+    private static final int ARCT_WIDTH = 60;
     /**
      * 直方图矩形之间的间距
      */
-    private static final int arctSpacing = 20;
+    private static final int ARCT_SPACING = 20;
+
     private Paint paint = new Paint();
+    /**
+     * 绘制文本的Paint
+     */
     private Paint textPaint = new Paint(ANTI_ALIAS_FLAG);
     /**
      * 坐标轴
      */
     private float[] originPoint = new float[]{100, 400};
     private Path linePath = new Path();
+    /**
+     * 直方图
+     */
     private Path rectPath = new Path();
 
     {
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(textSize);
+        textPaint.setTextSize(TEXT_SIZE);
     }
 
     {
@@ -89,23 +100,23 @@ public class Practice10HistogramView extends View {
         //画坐标轴
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(lineWidth);
+        paint.setStrokeWidth(LINE_WIDTH);
         canvas.drawPath(linePath, paint);
         //
         for (int i = 0; i < list.size(); i++) {
             VersionData versionData = list.get(i);
             //矩形
-            float left = originPoint[0] + arctSpacing * (i + 1) + arctWidth * i;
-            float bottom = originPoint[1] - lineWidth;
+            float left = originPoint[0] + ARCT_SPACING * (i + 1) + ARCT_WIDTH * i;
+            float bottom = originPoint[1] - LINE_WIDTH;
             float top = bottom - versionData.getNum();
-            float right = left + arctWidth;
+            float right = left + ARCT_WIDTH;
 
             rectPath.moveTo(left, top);
             rectPath.addRect(left, top, right, bottom, Path.Direction.CW);
             //文本宽度
             float textWid = textPaint.measureText(versionData.getName());
 
-            canvas.drawText(versionData.getName(), left + (arctWidth - textWid) / 2, bottom + textSize, textPaint);
+            canvas.drawText(versionData.getName(), left + (ARCT_WIDTH - textWid) / 2, bottom + TEXT_SIZE, textPaint);
         }
         paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.FILL);
@@ -115,9 +126,10 @@ public class Practice10HistogramView extends View {
     /**
      * 每个版本市场占比
      */
+    @SuppressWarnings("unused")
     private static class VersionData {
 
-        VersionData(String name, float num) {
+        private VersionData(String name, float num) {
             this.name = name;
             this.num = num;
         }
@@ -132,19 +144,19 @@ public class Practice10HistogramView extends View {
         private float num;
 
 
-        public String getName() {
+        private String getName() {
             return name;
         }
 
-        public void setName(String name) {
+        private void setName(String name) {
             this.name = name;
         }
 
-        public float getNum() {
+        private float getNum() {
             return num;
         }
 
-        public void setNum(float num) {
+        private void setNum(float num) {
             this.num = num;
         }
 
